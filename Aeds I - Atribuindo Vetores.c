@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int i, j, vet[10], vet2[10];
+int i, vet[10], vet2[10];
 
 int main(void)
 {
