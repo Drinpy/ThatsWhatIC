@@ -3,20 +3,42 @@
 #include <string.h>
 #include "imagelib.h"
 
+        // Código ajustado por Neves
 
-void dicing(image In, image Out, int nl, int nc, int salto)
+int tom(int tom, int ls, int cs, int ml){ //Separa os tons em 7 partes para a imagem reduzida.
+    int aux = ml/7;
+    if(tom < aux){
+        tom = 0;
+    }else if(tom<aux*2){
+        tom = 1;
+    }else if(tom<aux*3){
+        tom=2;
+    }else if(tom<aux*4){
+        tom=3;
+    }else if(tom<aux*5){
+        tom=4;
+    }else if(tom<aux*6){
+        tom=5;
+    }else{
+        tom=6;
+    }
+    return tom;
+}
+
+void dicing(image In, image Out, int nl, int nc, int salto, int ml)
 {
     int ls, cs;
     salto = nc/100;
     ls = nl/salto;
     cs = nc/salto;
-    for (int i = 0; i < nl - 1; i++)
+    for (int i = 0; i < ls; i++)
     {
-        for (int j = 0; j < nc - 1; j++)
+        for (int j = 0; j < cs; j++)
         {
-     
-            Out[i * nc + j] = In[i * cs * salto + j * salto];         
-               // Out[i * nc + j] = In[i * nc + j];
+            //Out[i*nc+j] = In[i*nc+j];
+            Out[i * cs + j] = In[i * nc * salto + j * salto];         
+            // Out[i * nc + j] = In[i * nc + j];
+            Out[i * cs + j]=tom(Out[i*cs+j], ls, cs, ml);
         }
     }
 }
@@ -30,9 +52,6 @@ void msg(char *s)
     exit(1);
 }
 
-/*-------------------------------------------------------------------------
- * main function
- *-------------------------------------------------------------------------*/
 int main(int argc, char *argv[])
 {
     int nc, nr, ml, tp, salto;
@@ -43,14 +62,19 @@ int main(int argc, char *argv[])
     img_name(argv[1], nameIn, nameOut, GRAY);
     //-- read image
     In = img_get(nameIn, &nr, &nc, &ml, GRAY);
+    printf("aaaa");
+    
+    salto = nc/100;
+    int ls = nr/salto;
+    int cs = nc/salto;
+
     Out = img_alloc(nr, nc);
     //-- transformation
-    dicing(In, Out, nr, nc, salto);
-
+    dicing(In, Out, nr, nc, salto, ml);
 
 
     //-- save image
-    img_put(Out, nameOut, nr, nc, ml, GRAY);
+    img_put(Out, nameOut, ls, cs, ml, GRAY);
     sprintf(cmd, "%s %s &", VIEW, nameOut);
     system(cmd);
     img_free(In);
