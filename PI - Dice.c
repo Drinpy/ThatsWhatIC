@@ -25,6 +25,42 @@ int tom(int tom, int ls, int cs, int ml){ //Separa os tons em 7 partes para a im
     return tom;
 }
 
+void leituradados()
+{
+    int temp = 0;
+
+image dado0 = img_get("./0.pgm", &temp, &temp, &temp, GRAY);
+
+image dado1 = img_get("./1.pgm", &temp, &temp, &temp, GRAY);
+
+image dado2 = img_get("./2.pgm", &temp, &temp, &temp, GRAY);
+
+image dado3 = img_get("./3.pgm", &temp, &temp, &temp, GRAY);
+
+image dado4 = img_get("./4.pgm", &temp, &temp, &temp, GRAY);
+
+image dado5 = img_get("./5.pgm", &temp, &temp, &temp, GRAY);
+
+image dado6 = img_get("./6.pgm", &temp, &temp, &temp, GRAY);
+
+}
+
+void dicingimg(image In, image Out, int nl, int nc, int salto, int ml)
+{
+
+    int cs = nc * 40;
+
+    for(int i = 0; i < nl; i++)
+    {
+        for(int j = 0; j < nc; j++)
+        {
+            image *dadoaux;
+            In[i * nc + j];
+        }
+    }
+
+}
+
 void dicing(image In, image Out, int nl, int nc, int salto, int ml)
 {
     int ls, cs;
@@ -54,7 +90,7 @@ void msg(char *s)
 
 int main(int argc, char *argv[])
 {
-    int nc, nr, ml, tp, salto;
+    int nc, nr, ml, tp, salto, dado0, dado1, dado2, dado3, dado4, dado5, dado6;
     char *p, nameIn[100], nameOut[100], cmd[110];
     image In, Out;
     if (argc < 2)
@@ -62,7 +98,7 @@ int main(int argc, char *argv[])
     img_name(argv[1], nameIn, nameOut, GRAY);
     //-- read image
     In = img_get(nameIn, &nr, &nc, &ml, GRAY);
-    printf("aaaa");
+    // printf("aaaa"); 
     
     salto = nc/100;
     int ls = nr/salto;
@@ -74,7 +110,7 @@ int main(int argc, char *argv[])
 
 
     //-- save image
-    img_put(Out, nameOut, ls, cs, ml, GRAY);
+    img_put(Out, nameOut, ls, cs, 7, GRAY);
     sprintf(cmd, "%s %s &", VIEW, nameOut);
     system(cmd);
     img_free(In);
